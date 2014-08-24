@@ -44,10 +44,7 @@ write.  You may want to add write access to
 
 :- set_prolog_flag(verbose, silent).
 :- use_module(library(http/http_unix_daemon)).
-:- use_module(library(broadcast)).
 
 :- use_module(server, []).
-:- use_module(todo).
 
 :- initialization http_daemon.
-:- listen(http(pre_server_start), attach_todo_db).

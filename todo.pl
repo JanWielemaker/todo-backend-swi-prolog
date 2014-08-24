@@ -1,5 +1,5 @@
 :- module(todo,
-	  [ attach_todo_db/0
+	  [ attach_todo_db/1			% +Dir
 	  ]).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
@@ -7,6 +7,7 @@
 :- use_module(library(http/http_path)).
 :- use_module(library(option)).
 :- use_module(library(uuid)).
+:- use_module(library(filesex)).
 :- use_module(library(persistency)).
 
 :- http_handler(root(todo), todo, [prefix]).
@@ -150,5 +151,7 @@ get_todo(Id, _{id:Id, url:URL,
 	     completed:boolean,
 	     order:integer).
 
-attach_todo_db :-
-	db_attach('todo.db', []).
+attach_todo_db(Dir) :-
+	make_directory_path(Dir),
+	directory_file_path(Dir, 'todo.db', DB),
+	db_attach(DB, []).
